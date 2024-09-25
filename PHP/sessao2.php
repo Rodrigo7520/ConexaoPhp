@@ -15,7 +15,7 @@ if (empty($usuario) || empty($senha)) {
 // Conectar ao banco de dados
 $servername = "localhost";
 $username = "root";
-$password = "99445055"; // senha do banco
+$password = ""; // senha do banco
 $dbname = "bancodedados"; // nome do banco
 
 $conn = new mysqli($servername, $username, $password, $dbname);

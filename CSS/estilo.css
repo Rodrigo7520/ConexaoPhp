@@ -1,4 +1,4 @@
-/* estilo.css */
+/* Estilo global */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4; /* Cor de fundo suave */
@@ -55,6 +55,7 @@ body {
 }
 
 .login input[type="text"],
+.login input[type="email"],
 .login input[type="password"] {
     width: 100%;
     padding: 10px;
@@ -117,4 +118,20 @@ body {
 
 .btn:hover {
     background-color: #c9302c; /* Cor ao passar o mouse no botão sair */
+}
+
+.login form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login label,
+.login input {
+    width: 100%; /* Cada input ocupa 100% da largura */
+    margin-bottom: 15px; /* Espaçamento entre os campos */
+}
+
+.login input[type="submit"] {
+    width: auto; /* Ajusta a largura do botão de envio */
+    margin-top: 10px;
 }

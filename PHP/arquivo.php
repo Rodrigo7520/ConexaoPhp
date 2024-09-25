@@ -2,7 +2,7 @@
 // Conectar ao banco de dados
 $servername = "localhost"; // ou seu servidor
 $username = "root"; // seu usuário do banco
-$password = "99445055"; // sua senha do banco
+$password = ""; // sua senha do banco
 $dbname = "bancodedados"; // seu banco de dados
 
 $conn = new mysqli($servername, $username, $password, $dbname);
