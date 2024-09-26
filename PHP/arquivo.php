@@ -32,7 +32,7 @@ if ($stmt->execute()) {
     echo "Erro ao cadastrar usuário: " . $stmt->error;
 }
 
-$sql = "DELETE FROM cadastro WHERE id = '?'";
+/*$sql = "DELETE FROM cadastro WHERE id = '?'";
 
 if ($conn->query($sql) === TRUE) {
     echo "Registro excluído com sucesso";
@@ -47,7 +47,7 @@ if ($conn->query($sql2) === TRUE) {
     echo "Registro atualizado com sucesso";
 } else {
     echo "Erro: " . $sql2. "<br>" . $conn->error;
-}
+}*/
 
 // Fechar a conexão
 $stmt->close();

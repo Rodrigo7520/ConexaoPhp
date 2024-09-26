@@ -1,7 +1,5 @@
 <?php 
 // Conectar ao banco de dados usando mysqli
-
-// Conectar ao banco de dados
 $servername = "localhost";
 $username = "root";
 $password = ""; // senha do banco
@@ -9,15 +7,14 @@ $dbname = "bancodedados"; // nome do banco
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-$conn = mysqli_connect("localhost", "root", "", "bancodedados");
-
-// Verifica se a conexão foi bem sucedida
-if (!$connect) {
-    die("Conexão falhou: " . mysqli_connect_error());
+// Verifica se a conexão foi bem-sucedida
+if ($conn->connect_error) {
+    die("A conexão falhou: " . $conn->connect_error);
 }
 
+// Obtenção de dados via POST
 $email = $_POST['email'];
-$novaSenha = password_hash($_POST['novasenha'], PASSWORD_DEFAULT); // Usando password_hash
+$novaSenha = $_POST['novasenha']; // Usando password_hash
 $repetirSenha = $_POST['repetirSenha']; // Senha não hash para comparação
 $id = $_POST['id'];
 
@@ -31,7 +28,7 @@ if (empty($email)) {
 }
 
 // Verifica se as senhas coincidem
-if (!password_verify($repetirSenha, $novaSenha)) { // Verificando senhas
+if ($repetirSenha != $_POST['novasenha']) {
     echo "<script language='javascript' type='text/javascript'>
     alert('As senhas não coincidem!');
     window.location.href='senha.html';
@@ -39,9 +36,9 @@ if (!password_verify($repetirSenha, $novaSenha)) { // Verificando senhas
     exit();
 }
 
-// Verifica se o email já existe
+// Verifica se o email já existe no banco de dados
 $query_select = "SELECT email FROM senha WHERE id = ?";
-$stmt = mysqli_prepare($connect, $query_select);
+$stmt = mysqli_prepare($conn, $query_select);
 mysqli_stmt_bind_param($stmt, 's', $id);
 mysqli_stmt_execute($stmt);
 mysqli_stmt_bind_result($stmt, $logarray);
@@ -58,7 +55,7 @@ if ($logarray == $email) {
 
 // Insere o novo registro
 $query_insert = "INSERT INTO senha (email, novaSenha) VALUES (?, ?)";
-$stmt_insert = mysqli_prepare($connect, $query_insert);
+$stmt_insert = mysqli_prepare($conn, $query_insert);
 mysqli_stmt_bind_param($stmt_insert, 'ss', $email, $novaSenha);
 
 if (mysqli_stmt_execute($stmt_insert)) {
@@ -77,30 +74,30 @@ mysqli_stmt_close($stmt_insert);
 
 // Deleta o registro com base no ID
 $sql_delete = "DELETE FROM senha WHERE id = ?";
-$stmt_delete = mysqli_prepare($connect, $sql_delete);
+$stmt_delete = mysqli_prepare($conn, $sql_delete);
 mysqli_stmt_bind_param($stmt_delete, 's', $id);
 
 if (mysqli_stmt_execute($stmt_delete)) {
     echo "Registro excluído com sucesso";
 } else {
-    echo "Erro ao excluir: " . mysqli_error($connect);
+    echo "Erro ao excluir: " . mysqli_error($conn);
 }
 
 mysqli_stmt_close($stmt_delete);
 
 // Atualiza o registro com base no ID
 $sql_update = "UPDATE senha SET email=? WHERE id=?";
-$stmt_update = mysqli_prepare($connect, $sql_update);
+$stmt_update = mysqli_prepare($conn, $sql_update);
 mysqli_stmt_bind_param($stmt_update, 'ss', $email, $id);
 
 if (mysqli_stmt_execute($stmt_update)) {
     echo "Registro atualizado com sucesso";
 } else {
-    echo "Erro ao atualizar: " . mysqli_error($connect);
+    echo "Erro ao atualizar: " . mysqli_error($conn);
 }
 
 mysqli_stmt_close($stmt_update);
 
 // Fechar a conexão
-mysqli_close($connect);
+mysqli_close($conn);
 ?>
